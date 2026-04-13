@@ -9,14 +9,14 @@ import "./App.css";
 
 function App() {
   return (
-    <Router>
+    <>
       <NavLinks />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/Documentation" component={Documentation} />
-          <Route component={Error}></Route>
-        </Switch>
-    </Router>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/Documentation" component={Documentation} />
+        <Route component={Error} />
+      </Switch>
+    </>
   );
 }
 
