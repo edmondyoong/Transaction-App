@@ -1,0 +1,37 @@
+# dependencies
+/node_modules/
+/.pnp
+.pnp.js
+
+# testing
+/coverage/
+
+# production
+/build/
+
+# local env files
+.env
+.env.*
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# editor folders
+/.vscode/
+/.idea/
+
+# local npm/yarn settings
+.npmrc
+.yarnrc
+.yarnrc.yml
+
+# temporary files
+*.tmp
+*.temp
+
+# misc
+.DS_Store
+Thumbs.db

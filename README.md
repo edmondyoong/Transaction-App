@@ -1,0 +1,2 @@
+# Transaction App
+This is a transaction app built with React. It allows users to add, edit, and delete transactions, along with viewing and searching their list of transactions. This is a front-end only web app, and uses local storage to persist data.
