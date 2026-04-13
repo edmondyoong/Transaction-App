@@ -39,7 +39,7 @@ function Documentation() {
         </li>
         <li>
           Fetch is used to consume 3 different public APIs. These are used to
-          convert currencies, to verify validity of phone number and email
+          convert currencies, to verify validity of the address and the email
           address.
         </li>
       </ul>

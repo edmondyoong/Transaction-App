@@ -37,20 +37,28 @@ function Information(props) {
       (form.phone_number === "")
     ) {
       window.alert("Cannot leave fields empty!");
-    } else {
-      fetch(`https://scraper.run/email?addr=${form.email}`)
+    } else { // Replaced email validation API. However, there is no longer a viable phone number validation API not requiring an API key that I could find so it was removed unfortunately. To maintain the same number of APIs used, as previously documented, I switched from validating phone number to address. Address validation uses a global CORS-friendly ArcGIS geocoding endpoint.
+      const validateArcGIS = (responseData) => {
+        if (!responseData || !Array.isArray(responseData.candidates) || responseData.candidates.length === 0) {
+          return false;
+        }
+
+        const candidate = responseData.candidates[0];
+        return candidate.score >= 80;
+      };
+
+      fetch(`https://disify.com/api/email/${form.email}`)
         .then((response) => response.json())
         .then((data) => {
-          if (!data.mxvalid) {
+          if (data.signals) {
             window.alert("Email address is not valid.");
           } else {
-            fetch(
-              `http://phone-number-api.com/json/?number=${form.phone_number}&fields=numberValid`
-            )
+            const addressQuery = encodeURIComponent(`${form.address}, ${form.city}, ${form.province}`);
+            fetch(`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?SingleLine=${addressQuery}&f=pjson&maxLocations=1`)
               .then((response) => response.json())
               .then((data) => {
-                if (!data.numberValid) {
-                  window.alert("Phone number is not valid.");
+                if (!validateArcGIS(data)) {
+                  window.alert("Address is not valid or could not be matched. Please verify the street, city, and province.");
                 } else {
                   props.setInformation({
                     first_name: form.first_name,
@@ -61,7 +69,6 @@ function Information(props) {
                     city: form.city,
                     province: form.province
                   });
-
                   props.setEditPersonalInformation(false);
                 }
               });

@@ -20,18 +20,19 @@ function Transactions(props) {
     ) {
       window.alert("Cannot leave fields empty!");
     } else if (new Date() < Date.parse(txnDateField)) {
-        window.alert("Date cannot be set in the future!");
+      window.alert("Date cannot be set in the future!");
     } else {
-      if (currencyField !== "cad") {
+      if (currencyField !== "cad") { // Replaced API endpoint because provider changed endpoint.
         fetch(
-          `https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/${txnDateField}/currencies/${currencyField}/cad.json`
+          `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@${txnDateField}/v1/currencies/${currencyField}.json`
         )
           .then((response) => response.json())
           .then((data) => {
+            var rate = data[currencyField]["cad"];
             props.updateTxn(
               txnDateField,
               txnDescriptionField,
-              (txnPriceField * data.cad).toFixed(2)
+              (txnPriceField * rate).toFixed(2)
             );
             setCurrencyField("cad");
           });
